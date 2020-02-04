@@ -110,17 +110,17 @@
       关键词 extends 和 implements 必须 写在类名称的同一行。  
       类的开始花括号 必须 独占一行，结束花括号也 必须 在类主体后独占一行。 
   
-    <?php  
-    namespace Vendor\Package;  
-
-    use FooClass;  
-    use BarClass as Bar;  
-    use OtherVendor\OtherPackage\BazClass;  
-
-    class ClassName extends ParentClass implements \ArrayAccess, \Countable  
-    {  
-    // 这里面是常量、属性、类方法  
-    }  
+    >     <?php  
+    >     namespace Vendor\Package;  
+    >
+    >     use FooClass;  
+    >     use BarClass as Bar;  
+    >     use OtherVendor\OtherPackage\BazClass;  
+    >
+    >     class ClassName extends ParentClass implements \ArrayAccess, \Countable  
+    >     {  
+    >     // 这里面是常量、属性、类方法  
+    >     }  
 # PSR-3 日志接口规范
 # PSR-4 自动加载规范
 # PSR-5 PHPDoc 标准（未通过）
