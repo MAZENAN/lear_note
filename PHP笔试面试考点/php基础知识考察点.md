@@ -1,13 +1,14 @@
 - [1. PHP引用变量考察点](#yybl)
 - [2. 常量及数据类型考察点](#cl)
 - [3. 运算符知识点考察](#ysf)
-- [4. 自定义函数及内部函数考察点](#hs)
-- [5. 正则表达式考察知识点](#zz)
-- [6. 文件及目录处理相关考点](#file)
-- [7. 会话控制技术](#hh)
-- [8. 面向对象考点](#oop)
-- [9. 网络协议考察点](#net)
-- [10. 开发环境及配置相关考点](#env)
+- [4. 流程控制考察点](#lckz)
+- [5. 自定义函数及内部函数考察点](#hs)
+- [6. 正则表达式考察知识点](#zz)
+- [7. 文件及目录处理相关考点](#file)
+- [8. 会话控制技术](#hh)
+- [9. 面向对象考点](#oop)
+- [10. 网络协议考察点](#net)
+- [11. 开发环境及配置相关考点](#env)
 # <a id="yybl">PHP引用变量考察点</a>
 ## 1. 变量的COW(copy on write)机制  
     <?php
@@ -72,8 +73,6 @@
 
 ![zval4](https://github.com/MAZENAN/lear_note/blob/master/PHP%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E8%80%83%E7%82%B9/img/zval4.png)  
 
- 
-
 # <a id="cl">常量及数据类型考察点</a> 
 ## （1） PHP字符串的定义方式以及各自的区别：  
 __定义方式：__  
@@ -131,10 +130,293 @@ __FILE__、__LINE__、__DIR__、__FUNCTION__、__CLASS__、__TRAIT__、__METHOD_
 
  
 
-# <a id="ysf">运算符知识点考察</a>
-# <a id="hs">自定义函数及内部函数考察点</a>
-# <a id="zz">正则表达式考察知识点</a>
-# <a id="file">文件及目录处理相关考点</a>
+# <a id="ysf">运算符知识点考察</a>  
+## (1) PHP的错误抑制符：  
+PHP支持一个错误运算符：`@`。当将其放置在一个PHP表达式之前，该表达式可能产生的`任何错误`信息都被`忽略掉`。  
+## (2) PHP运算符的优先级：  
+![运算符优先级官方图](https://github.com/MAZENAN/lear_note/blob/master/PHP%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E8%80%83%E7%82%B9/img/ysfyxj1.png)  
+
+![运算符优先级常考](https://github.com/MAZENAN/lear_note/blob/master/PHP%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E8%80%83%E7%82%B9/img/ysfyxj2.png)  
+
+括号的使用可以增加代码的可读性，推荐使用。  
+## (3) 比较运算符  
+==和===:  
+等值判断（FALSE的七种情况）  
+## (4) 递增递减运算符  
+递增递减运算符不影响布尔值。  
+递减NULL没有效果  
+递增NULL值为1  
+递增和递减在前就先运算后返回，反之就先返回，后运算。  
+
+ 
+
+## (5) 逻辑运算符  
+短路作用  
+||和&&与or和and的优先级不同  
+
+![运算符优先级例题1](https://github.com/MAZENAN/lear_note/blob/master/PHP%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E8%80%83%E7%82%B9/img/ysfyxjlt1.png)   
+
+解题方法：  
+重点记忆递增/递减运算符的运算问题，逻辑运算符的短路效果，在看到逻辑运算符要多考虑优先级问题。  
+
+## (6) 真题： 
+//输出打印的结果：  
+ 
+    <?php
+    $a = 0;
+    $b = 0;
+
+    if ($a = 3 > 0 || $b = 3 > 0) {
+        $a++;
+        $b++;
+        echo $a . "\n";
+        echo $b . "\n";
+    }  
+    //结果 1,1  
+
+
+# <a id="lckz">流程控制考察点</a>  
+## (1) PHP遍历数组的三种方式，以及各自的区别：  
+使用for循环：  
+使用foreach:  
+使用while、list()、each()组合循环  
+
+    for循环只能遍历索引数组、foreach可以遍历索引和关联数组，联合使用list()、each()和while()循环可以遍历索引和关联数组  
+
+    while、list()、each()组合不会reset()  
+    foreach遍历会对数组进行reset()操作  
+  
+## (2) PHP分支考点  
+if....elseif  
+    在elseif语句中只能有一个表达式为true，即在elseif语句中z只能有一个语句被执行，多个elseif从句是排斥关系。  
+    使用elseif语句有一个基本原则，总把优先范围小的条件放在前面处理。  
+
+
+switch...case  
+
+    和if不同的是，switch后面的控制表达式额数据类型只能是整形、浮点型、或者字符串。  
+
+	continue语句作用到switch的作用类似于break跳出switch外的循环，可以使用continue2  
+    switch...case会生成跳转表，直接跳转到对应的case  
+
+## (3) 效率：  
+如果条件比一个简单的比较要复杂的多或者在一个很多次的循环中，那么用switch语句可能会快一些。  
+
+## (4) 真题：  
+PHP中如何优化多个if...else...的情况？  
+    把可能性较大的条件往前移；如果判断的较复杂且数据类型为整形、浮点型、字符串，可以用switch...case...  
+
+# <a id="hs">自定义函数及内部函数考察点</a>  
+## (1) 例题1  
+
+![函数例题1](https://github.com/MAZENAN/lear_note/blob/master/PHP%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E8%80%83%E7%82%B9/img/hanshu1.png) 
+ 
+## (2) 变量的作用域： 
+ 
+变量的作用域也称为变量的范围，变量的范围即它定义的上下文背景（也是它生效的范围）。大部分的PHP变量只有一个单独的范围。这个单独的范围跨度同样包含了include和require引入的文件。
+  
+    global关键字  
+    $GLOBALS以及其他超全局数组  
+
+## (3) 静态变量  
+静态变量仅在局部函数域中存在，但当程序执行离开此作用域时，其值并不会消失。  
+__static关键字：__  
+
+    仅初始化一次  
+    初始化时需要赋值  
+    每次执行函数值会保留  
+    static修饰的变量是局部的，仅在函数内有效  
+    可以记录函数的调用次数，从而可以在某些条件下终止递归  
+
+## (4) 函数的参数  
+    默认情况下，函数参数通过值传递  
+    如果希望允许函数修改它的值，必须通过引用传递参数。  
+
+![函数传参](https://github.com/MAZENAN/lear_note/blob/master/PHP%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E8%80%83%E7%82%B9/img/hanshu2.png)   
+
+## (5) 函数的返回值  
+值通过使用可选的返回语句(return)返回  
+可以返回包括数组和对象的任意类型  
+返回语句会终止函数执行，将控制权交回函数调用处  
+省略return,返回值为NULL，不可有多个返回值  
+## (6) 函数的引用返回  
+从函数返回一个引用，必须在函数声明和指派返回值给一个变量时都使用引用运算符&  
+
+
+![函数的引用返回](https://github.com/MAZENAN/lear_note/blob/master/PHP%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E8%80%83%E7%82%B9/img/yinyong.png)   
+
+## (7) 外部文件的导入  
+include/require语句包含并运行指定文件  
+如果给出路径名按照路径来找，否则从include_path中查找  
+如果include_path中也没有，则从脚本文件所在的目录和当前工作目录下寻找。  
+当一个文件被包含时，其中所包含的代码继承了include所在行的变量范围  
+
+    加载过程中未找到文件则include结构会发出一条警告；这一点和require不同，后者会发出一个致命错误。  
+
+    require在出错时，产生E_COMPILE_ERROR级别的错误。换句话说将导致脚本终止而include只产生警告(E_WARNING),脚本会继续运行。  
+	
+    require(include)/require_once(include_once)唯一区别是PHP会检查该文件是否已经被包过，如果是则不会再次包含。  
+## (8) 系统内置函数  
+时间日期函数 
+ 
+    date()、strtotime()、mktime()、time()、microtime()、date_default_timezone_set()  
+
+IP处理函数  
+
+    ip2long()、long2ip()  
+
+打印处理  
+
+    print()、printf()、print_r()、echo、sprintf()、var_dump()、var_export()  
+
+序列化和反序列化函数  
+
+    serialize()、unserialize()  
+
+字符串处理函数  
+
+    implode()、explode()、join()、strrev()、trim()、ltrim()、rtrim()、strstr()、number_format()...  
+ 
+数组处理函数  
+
+    array_keys()、array_values()、array_diff()、array_intersect()、array_merge()、array_shift()、array_unshift()、array_pop()、array_push()、sort() 等  
+
+# <a id="file">文件及目录处理相关考点</a>  
+## (1) 文件读取/写入操作  
+  
+__*fopen()函数*__  
+    
+    用来打开一个文件，打开时需要指定打开模式  
+    打开模式：r/r+、w/w+、a/a+、x/x+、b、t  
+
+__*读取函数*__  
+ 
+    fread()  
+    fgets()  
+    fgetc()  
+
+__*关闭文件函数*__  
+
+    fclose()  
+
+__*不需要fopen()打开的函数：*__  
+
+    file_get_contents()  
+    file_put_contents()  
+
+__*其他读取函数：*__  
+    
+    file()  
+    readfile()  
+
+__*访问远程文件*__:  
+
+    开启allow_url_fopen,HTTP协议连接只能使用只读、FTP协议可以使用只读或者只写。  
+
+__*目录操作函数：*__  
+
+名称相关  
+    
+    basename()、dirname()、pathinfo()  
+
+目录读取  
+
+    opendir()、readdir()、closedir()、rewinddir()  
+
+目录删除  
+
+    rmdir()  
+
+目录创建  
+
+    mkdir()  
+
+文件大小  
+
+    filesize()  
+
+目录大小  
+   
+    disk_free_space()、disk_total_space()  
+
+文件拷贝  
+    
+    copy()  
+
+删除文件  
+
+    unlink()  
+
+文件类型  
+
+    filetype  
+
+重命名文件或者目录：  
+    
+    rename()  
+
+文件截取:  
+
+    ftruncate()  
+
+文件属性：  
+
+    file_exists()、is_readable()、is_writeable()、is_executable()、filectime()、fileatime()、	filemtime()  
+
+文件锁：  
+
+    flock()  
+
+文件指针：  
+
+    ftell()、fseek()、rewind()      
+
+# <a id="zz">正则表达式考察点</a>  
+
+## (1) 正则表达式的作用  
+
+分割、查找、匹配、替换字符串。  
+
+## (2) 分隔符  
+
+正斜线(/)、hash符号(#)、以及取反符号(~)。  
+
+## (3) 通用原子  
+
+    \d、\D、\w、\W、\s、\S    
+## (4) 元字符  
+
+    . * ? ^ $ + {n} {n,} {n,m} [] () [^] | [-]  
+## (5) 模式修正符  
+
+    i m e s U x A D u  
+
+## (6) 后向引用  
+    
+    <?php
+    $subject = '<h1>一级标题</h1>';
+    $pattern = '#<h1>(.*)</h1>#';
+    echo preg_replace($pattern, '\\1', $subject);  
+
+## (7) 贪婪模式  
+在修饰匹配次数的特殊符号后再加上一个 "?" 号  
+通过模式修饰符来实现，大写"U"  
+
+![取消贪婪模式](https://github.com/MAZENAN/lear_note/blob/master/PHP%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E8%80%83%E7%82%B9/img/zz1.png)  
+ 
+## (8) 正则表达式PCRE函数：  
+
+    preg_match()、preg_match_all()、preg_replace()、preg_split()  
+
+## (9) 中文匹配：  
+    UTF-8汉字编码范围是`0x4e00-0x9fa5`，在ANSI(gb2312)环境下，`0xb0-0xf7`,`0xa1-0xfe`。 
+
+UTF-8要使用u模式修正符使模式字符串被当成UTF-8，在ANSI(gb2312)环境下，要使用chr将Ascii码换为字符  
+ 
+![中文匹配](https://github.com/MAZENAN/lear_note/blob/master/PHP%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E8%80%83%E7%82%B9/img/zwpp.png)  
+
+## (10) 
+
 # <a id="hh">会话控制技术</a>  
 ## (1) 为什么使用会话控制技术？  
 Web是通过http协议来实现的，http是无状态协议，没有办法来维护两个事务之间的状态，会把用户连续的请求当作是独立的请求，没有状态的保持，会话控制技术就是为了解决这个问题。  
