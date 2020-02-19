@@ -415,8 +415,6 @@ UTF-8要使用u模式修正符使模式字符串被当成UTF-8，在ANSI(gb2312)
  
 ![中文匹配](https://github.com/MAZENAN/lear_note/blob/master/PHP%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E8%80%83%E7%82%B9/img/zwpp.png)  
 
-## (10) 
-
 # <a id="hh">会话控制技术</a>  
 ## (1) 为什么使用会话控制技术？  
 Web是通过http协议来实现的，http是无状态协议，没有办法来维护两个事务之间的状态，会把用户连续的请求当作是独立的请求，没有状态的保持，会话控制技术就是为了解决这个问题。  
