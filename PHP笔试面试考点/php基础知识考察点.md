@@ -103,6 +103,9 @@ heredoc类似于双引号；
 newdoc类似与单引号。  
 
 ## (2) 数据类型：8大数据类型（标量、复合、特殊）  
+
+![数据类型](https://github.com/MAZENAN/lear_note/blob/master/PHP%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E8%80%83%E7%82%B9/img/sjlx.png)   
+
 __浮点类型：__  
 浮点类型不能用到比较运算中。  
 
@@ -111,7 +114,6 @@ FALSE的7种情况：0，0.0，‘’，‘0’，false,array(),NULL;
 
 __数组类型：__  
 超全局数组：  
-
 
     $GLOBALS、$_GET、$_POST、$_REQUEST、$_SESSION、$_COOKIE、$_SERVER、$_FILES、$_ENV; 
 
@@ -127,8 +129,6 @@ define不能用于定义类的常量，const可以
 
 __预定义常量：__  
 __FILE__、__LINE__、__DIR__、__FUNCTION__、__CLASS__、__TRAIT__、__METHOD__、__NAMESPACE__  
-
- 
 
 # <a id="ysf">运算符知识点考察</a>  
 ## (1) PHP的错误抑制符：  
