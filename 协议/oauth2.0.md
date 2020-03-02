@@ -78,7 +78,7 @@ __不难看出来，上面六个步骤之中，B是关键，即用户怎样才�
 
 正式开始前还是请大家自行回顾一下小美的案例场景，OAuth 2.0 中的授权码模式就是专为这类使用场景而存在的，授权码模式也是 OAuth 2.0 四种授权模式中步骤最严密，授权过程最严谨的一个授权模式。上图上一篇图文中贴过的抽象授权图，接下来咱们就看一看授权码模式授权的流程图，  
 
-![grand-code-flow](https://github.com/MAZENAN/lear_note/blob/master/协议/img/grand-code-flow.png)   
+![grand-code-flow](https://github.com/MAZENAN/lear_note/blob/master/协议/img/grand-code-flow.jpg)   
 
 这里给出的图示只对授权（获取Access Token）的过程进行了“多态化”得扩展，后续其他授权模式的流程图示意图也是对这个过程的不同“多态”表示。很多人看到图基本就🤮了，但是请多给自己打打气，耐下心来学会如何去看懂这些看似非常晦涩的图，这是咱们必须要具备的一项业务能力，而且是一项基本功，是一项值得咱们去掌握的能力，更何况掌握它并不难。在这里又出现了一个新东西：
 
@@ -148,7 +148,7 @@ E 步骤中，认证服务器发送的 HTTP 回复，包含以下参数：
 
 本期图文咱们看一看另外一种可以解决小美问题的授权模式，Implicit Grant Type 简化模式。这种模式我不打算详细介绍，这种授权模式不通过第三方应用程序的后台服务器，直接在浏览器中向认证服务器申请令牌。它的授权流程中取消了授权码的认证过程，简化了授权流程，所以说它是一种简化的模式，所有步骤在浏览器中完成，当在浏览器中回调的网页会打开后，access token 直接在浏览器的地址栏中就能看见，这是一种不安全的模式，容易造成 access_token 的泄露。但是我之所以要写这一篇图文，除了简单介绍一下这种授权模式外，真的是因为有话要说。  
 
-![client-side-web-app-lication-flow](https://github.com/MAZENAN/lear_note/blob/master/协议/img/client-side-web-app-lication-flow.png)  
+![client-side-web-app-lication-flow](https://github.com/MAZENAN/lear_note/blob/master/协议/img/client-side-web-app-lication-flow.jpg)  
 
 那咱们先说正经的，完了之后再耍流氓，先看看第三方应用获取 Access Token 的流程：
 
@@ -252,5 +252,4 @@ A 步骤中，客户端发出的HTTP请求，包含以下参数：
 B步骤认证服务器向客户端发送访问令牌：  
 
 ![client_response_token](https://github.com/MAZENAN/lear_note/blob/master/协议/img/client_response_token.png)  
-
 
