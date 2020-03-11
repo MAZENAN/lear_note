@@ -1,5 +1,5 @@
-# 1.MySQL架构
-## (1). MySQL简介  
+# 一、MySQL架构
+## (1)、 MySQL简介  
 ### 概述
 ### 高级MySQl
 - MySQL内核
@@ -76,3 +76,30 @@ show engines;
 
 ![阿里engine](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/aliengine.png)   
 
+# 二、索引优化分析
+
+## (1) SQL性能下降原因SQL慢(执行时间长，等待时间时长)  
+
+- 查询语句写的烂
+- 索引失效
+- 关联查询太多join(设计缺陷或不得已的需求)
+- 服务器调优以及各个参数设置(缓冲\线程数)
+
+## (2) 常见通用的join查询
+- SQL执行顺序
+ - 手写：
+ 
+![手写](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/join1.png) 
+
+ - 机读：  
+
+![机读](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/join2.png)
+
+ - 总结：
+
+![总结](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/join3.png)
+
+- Join图
+- 建表SQL
+- 7种Join
+## (3) 索引简介
