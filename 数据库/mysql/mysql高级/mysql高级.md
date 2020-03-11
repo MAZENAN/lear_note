@@ -87,7 +87,7 @@ show engines;
 
 ## (2) 常见通用的join查询
 - SQL执行顺序
-   - 手写：
+   - 手写：  
 ![手写](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/join1.png) 
 
    - 机读：  
