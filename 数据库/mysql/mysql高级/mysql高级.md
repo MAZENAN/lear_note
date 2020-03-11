@@ -87,17 +87,14 @@ show engines;
 
 ## (2) 常见通用的join查询
 - SQL执行顺序
- - 手写：
- 
+   - 手写：
 ![手写](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/join1.png) 
 
- - 机读：  
-
+   - 机读：  
 ![机读](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/join2.png)
+   - 总结：
 
- - 总结：
-
-![总结](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/join3.png)
+ ![总结](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/join3.png)
 
 - Join图
 - 建表SQL
