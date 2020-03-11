@@ -1,3 +1,14 @@
+- [1.MySQL架构](#mysql_jg)
+  - [1.MySQL简介](#sy)
+  - [2.MysqlLinux版本的安装](#sy)
+  - [3.Mysql配置文件](#sy)
+  - [4.MySQL逻辑架构介绍](#sy)
+  - [5.MySQL存储引擎](#sy)
+- [2.索引优化分析](#sy)
+- [3.查询截取分析](#bx)
+- [4.Mysql锁机制](#cxyh)
+- [5.主重复制](#gky)
+
 # 一、MySQL架构
 ## 1、MySQL简介  
 ### (1) 概述
