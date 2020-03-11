@@ -21,23 +21,23 @@ __说明__：完整的mysql优化需要很深的功底,大公司甚至有专门�
 
 主重复制  
 
-- 错误日志log-error
+- 错误日志`log-error`
 
 默认是关闭的,记录严重的警告和错误信息,每次启动和关闭的详细信息等。  
 
-- 查询日志log
+- 查询日志`log`
 
 默认关闭,记录查询的sql语句，如果开启会减低mysql的整体性能，因为记录日志也是需要消耗系统资源的
 
 - 数据文件
-   - windows:D:\ProgramFiles\MySQL\MySQLServer5.5\data目录下可以挑选很多库  
-   linux: 看看当前系统中的全部库后再进去,默认路径：/var/lib/mysql  
-   - frm文件:存放表结构
-   - myd文件：存放表数据
-   - myi文件：存放表索引
+   - windows:D:\ProgramFiles\MySQL\MySQLServer5.5\`data`目录下可以挑选很多库  
+   linux: 看看当前系统中的全部库后再进去,默认路径：`/var/lib/mysql`  
+   - `frm`文件:存放表结构
+   - `myd`文件：存放表数据
+   - `myi`文件：存放表索引
 - 如何配置
-   - windows：my.ini文件  
-   - Linux：/etc/my.cnf文件  
+   - windows：`my.ini`文件  
+   - Linux：`/etc/my.cnf`文件  
     
 ## (4). MySQL逻辑架构介绍  
 
@@ -66,9 +66,9 @@ __说明__：完整的mysql优化需要很深的功底,大公司甚至有专门�
 ## (5). MySQL存储引擎  
 - 查看命令
  
-show engines;
+`show engines`;
 
-- MyISAM和InnoDB  
+-` MyISAM`和`InnoDB`  
 
 ![存储引擎对比](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/duibi.png)  
  
@@ -85,7 +85,7 @@ show engines;
 - 关联查询太多join(设计缺陷或不得已的需求)
 - 服务器调优以及各个参数设置(缓冲\线程数)
 
-## (2) 常见通用的join查询
+## (2) 常见通用的`join`查询
 - SQL执行顺序
    - 手写：  
 ![手写](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/join1.png) 
@@ -97,6 +97,75 @@ show engines;
  ![总结](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/join3.png)
 
 - Join图
+ ![7种join图](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/join.png)
+
 - 建表SQL
 - 7种Join
 ## (3) 索引简介
+
+### 索引是什么
+
+    MySQL官方对索引的定义为：索引(Index)是帮助MySQL高校获取数据的数据结构。
+    可以得到索引的本质：索引是数据结构；
+
+你可以简单理解为"排好序的快速查找数据结构"。  
+
+- 详解：
+
+ ![索引详解](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index.png)
+
+- 总结：  
+
+    数据本身之外,数据库还维护着一个满足特定查找算法的数据结构，这些数据结构以某种方式指向数据，
+    这样就可以在这些数据结构的基础上实现高级查找算法,这种数据结构就是索引。
+
+
+一般来说索引本身也很大，不可能全部存储在内存中，因此索引往往以文件形式存储在硬盘上。  
+
+__我们平时所说的索引，如果没有特别指明，都是指B树(多路搜索树，并不一定是二叉树)结构组织的索引。__其中聚集索引，次要索引，覆盖索引，
+复合索引，前缀索引，唯一索引默认都是使用B+树索引，统称索引。当然,除了B+树这种类型的索引之外，还有哈希索引(hash index)等。  
+
+### 优缺点
+
+- 优点：  
+  类似大学图书馆建书目索引，提高数据检索效率，降低数据库的IO成本。  
+  通过索引列对数据进行排序，降低数据排序成本，降低了CPU的消耗。
+
+
+- 缺点：  
+  实际上索引也是一张表，该表保存了主键和索引字段，并指向实体表的记录,所以索引列也是要占用空间的。  
+  虽然索引大大提高了查询速度，同时却会降低更新表的速度,如果对表INSERT,UPDATE和DELETE。
+  因为更新表时，MySQL不仅要不存数据，还要保存一下索引文件每次更新添加了索引列的字段，
+  都会调整因为更新所带来的键值变化后的索引信息。  
+  索引只是提高效率的一个因素，如果你的MySQL有大数据量的表，就需要花时间研究建立优秀的索引，或优化查询语句。  
+
+### mysql索引分类
+- 单值索引  
+  即一个索引只包含单个列，一个表可以有多个单列索引：  
+  即一个索引只包含单个列，一个表可以有多个单列索引。  
+
+- 唯一索引  
+  索引列的值必须唯一，但允许有空值。  
+
+- 复合索引  
+  即一个索引包含多个列。  
+
+- 基本语法  
+  - 创建：  
+  
+    `CREATE [UNIQUE] INDEX  indexName ON mytable(columnname(length));`  
+  如果是CHAR,VARCHAR类型，length可以小于字段实际长度；如果是BLOB和TEXT类型，必须指定length。  
+
+    `ALTER mytable ADD [UNIQUE]  INDEX [indexName] ON(columnname(length));`  
+
+  - 删除:  
+    `DROP INDEX [indexName] ON mytable;`  
+
+  - 查看:  
+   `SHOW INDEX FROM table_name\G`    
+
+  - 使用ALTER命令  
+   
+   ![alter_index](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/alter_index.png)  
+
+
