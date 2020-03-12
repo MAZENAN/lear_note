@@ -303,5 +303,54 @@ Index Browning 索引枯萎(不知道该怎么翻译这个名词，就是指leav
 ![举例](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index1.png)  
 
 ## 4、性能分析
+### (1) MySQL Query Optimizer  
+
+![MySQL Query Optimizer](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mqo.png)  
+
+### (2) MySQL常见瓶颈
+
+1. CPU:CPU在饱和的时候一般发生在数据装入在内存或从磁盘上读取数据时候  
+2. IO:磁盘I/O瓶颈发生在装入数据远大于内存容量时  
+3. 服务器硬件的性能瓶颈：top,free,iostat和vmstat来查看系统的性能状态  
+
+### (3) Explain
+#### 是什么（查看执行计划）:  
+ 使用EXPLAIN关键字可以模拟优化器执行SQL语句，从而知道MySQL是
+ 如何处理你的SQL语句的。分析你的查询语句或是结构的性能瓶颈  
+#### 能干嘛:  
+表的读取顺序;数据读取操作的操作类型;哪些索引可以使用;哪些索引被实际使用;表之间的引用;每张表有多少行被优化器查询;
+
+#### 怎么玩:  
+ Explain+SQL语句  
+ 执行计划包含的信息:    
+![explain](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/explain.png)  
+
+#### 各个字段解释:  
+- `id`:  
+select查询的序列号，包含一组数字，表示查询中执行select子句或操作表的顺序。    
+三种情况：  
+id相同，执行顺序由上至下；  
+
+![id1](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/id1.png)
+
+id不同，如果是子查询，id的序号会递增，id值越大优先级越高，越先被执行：  
+
+![id2](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/id2.png)  
+
+  
+id相同不同，同时存在。  
+
+![id3](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/id3.png)  
+
+- `select_type`:  
+- `table`:  
+- `type`:  
+- `possible_keys`: 
+- `key`:  
+- `key_len`:
+- `ref`:
+- `rows`
+- `Extra`
+
 ## 5、索引优化
 
