@@ -79,7 +79,7 @@ __说明__：完整的mysql优化需要很深的功底,大公司甚至有专门�
  
 `show engines`;
 
--` MyISAM`和`InnoDB`  
+- ` MyISAM`和`InnoDB`  
 
 ![存储引擎对比](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/duibi.png)  
  
@@ -107,7 +107,8 @@ __说明__：完整的mysql优化需要很深的功底,大公司甚至有专门�
 
  ![总结](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/join3.png)
 
-- Join图
+- Join图  
+
  ![7种join图](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/join.png)
 
 - 建表SQL
@@ -133,7 +134,7 @@ __说明__：完整的mysql优化需要很深的功底,大公司甚至有专门�
 
 一般来说索引本身也很大，不可能全部存储在内存中，因此索引往往以文件形式存储在硬盘上。  
 
-__我们平时所说的索引，如果没有特别指明，都是指B树(多路搜索树，并不一定是二叉树)结构组织的索引。__其中聚集索引，次要索引，覆盖索引，
+__我们平时所说的索引，如果没有特别指明，都是指B树(多路搜索树，并不一定是二叉树)结构组织的索引。__ 其中聚集索引，次要索引，覆盖索引，
 复合索引，前缀索引，唯一索引默认都是使用B+树索引，统称索引。当然,除了B+树这种类型的索引之外，还有哈希索引(hash index)等。  
 
 ### (2)、优缺点
@@ -153,7 +154,7 @@ __我们平时所说的索引，如果没有特别指明，都是指B树(多路�
 ### (3)、mysql索引分类
 - 单值索引  
   即一个索引只包含单个列，一个表可以有多个单列索引：  
-  即一个索引只包含单个列，一个表可以有多个单列索引。  
+  建议一张表索引不要超过5个,优先考虑复合索引    
 
 - 唯一索引  
   索引列的值必须唯一，但允许有空值。  
@@ -208,7 +209,7 @@ Btree索引的数据结构如下：
 
 ![btree4](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/btree4.png)  
 
-演算如下：
+演算如下：  
 读取root节点，判断82大于在0-120之间，走左边分支。
 读取左边branch节点，判断82大于80且小于等于120，走右边分支。
 读取右边leaf节点，在该节点中找到数据82及对应的rowid
@@ -218,7 +219,7 @@ Btree索引的数据结构如下：
  
 而由于Btree索引对结构的利用率很高，定位高效。当1千万条数据时，Btree索引也是三层结构(依稀记得亿级数据才是3层与4层的分水岭)。定位记录仍只需要三次I/O，这便是开头所说的，100条数据和1千万条数据的定位，在btree索引中的花销是一样的。
  
-平衡扩张
+平衡扩张  
 除了利用率高、定位高效外，Btree的另一个特点是能够永远保持平衡，这与它的扩张方式有关。(unbalanced和hotspot是两类问题，之前我一直混在一起)，先描述下Btree索引的扩张方式：
  
 新建一个索引，索引上只会有一个leaf节点，取名为Node A，不断的向这个leaf节点中插入数据后，直到这个节点满，这个过程如下图（绿色表示新建/空闲状态，红色表示节点没有空余空间）：    
@@ -235,8 +236,7 @@ Btree索引的数据结构如下：
 当Node C满之后，此时 Node A仍有空余空间存放条目，所以不需要再拆分，而只是新分配一个数据块Node D，将在Node A中创建指定到Node D的条目：  
 
 ![btree7](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/btree7.png)   
-
-如果当根节点Node A也满了，则需要进一步拆分：新建Node E&F&G，将Node A中范围条目拆分到E&F两个节点中，并建立E&F到BCD节点的关联，向Node G插入索引值。此时E&F为branch节点，G为leaf节点，A为Root节点：  
+ 
 
 如果当根节点Node A也满了，则需要进一步拆分：新建Node E&F&G，将Node A中范围条目拆分到E&F两个节点中，并建立E&F到BCD节点的关联，向Node G插入索引值。此时E&F为branch节点，G为leaf节点，A为Root节点：  
 
