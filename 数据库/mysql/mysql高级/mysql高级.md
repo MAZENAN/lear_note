@@ -5,11 +5,11 @@
   - [4.MySQL逻辑架构介绍](#mysql_ljjg)
   - [5.MySQL存储引擎](#mysql_ccyq)
 - [2.索引优化分析](#sy)
-  - [1.SQL性能下降原因SQL慢](#sy)
-  - [2.常见通用的`join`查询](#sy)
-  - [3.索引简介](#sy)
-  - [4.性能分析](#sy)
-  - [5.索引优化](#sy)
+  - [1.SQL性能下降原因SQL慢](#sy_xn)
+  - [2.常见通用的`join`查询](#sy_join)
+  - [3.索引简介](#sy_jj)
+  - [4.性能分析](#sy_xnfx)
+  - [5.索引优化](#sy_yh)
 - [3.查询截取分析](#bx)
 - [4.Mysql锁机制](#cxyh)
 - [5.主重复制](#gky)
@@ -92,16 +92,16 @@ __说明__：完整的mysql优化需要很深的功底,大公司甚至有专门�
 
 ![阿里engine](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/aliengine.png)   
 
-# 二、索引优化分析
+# <a id="sy">二、索引优化分析</a>
 
-## 1、SQL性能下降原因SQL慢(执行时间长，等待时间时长)  
+## <a id="sy_xn">1、SQL性能下降原因SQL慢(执行时间长，等待时间时长)</a> 
 
 - 查询语句写的烂
 - 索引失效
 - 关联查询太多join(设计缺陷或不得已的需求)
 - 服务器调优以及各个参数设置(缓冲\线程数)
 
-## 2、常见通用的`join`查询
+## <a id="sy_join">2、常见通用的`join`查询</a>
 - SQL执行顺序
    - 手写：  
 ![手写](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/join1.png) 
@@ -118,7 +118,7 @@ __说明__：完整的mysql优化需要很深的功底,大公司甚至有专门�
 
 - 建表SQL
 - 7种Join
-## 3、索引简介
+## <a id="sy_jj">3、索引简介</a>
 
 ### (1)、索引是什么
 
