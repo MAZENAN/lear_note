@@ -521,8 +521,60 @@ like KK%相当于=常量     %KK和%KK% 相当于范围
 
 # <a id="cxjq">三、查询截取分析</a>
 ## <a id="cy_cyyh">1.查询优化</a>
-## <a id="cy_mcrz">2.慢查询日志</a>
 
+__永远小表驱动大表__  
+
+![小表驱动大表](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/xqd1.png)   
+![小表驱动大表](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/xqd2.png)  
+![小表驱动大表](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/xqd3.png)  
+
+__order by关键字优化__  
+
+- ORDER BY子句，尽量使用Index方式排序，避免使用FileSort方式排序
+  - 建表SQL
+  - Case  
+![order_by_case1](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/order_by_case1.png)  
+![order_by_case2](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/order_by_case2.png)  
+
+  - MySQL支持二种方式的排序，FileSort和Index,Index效率高。
+它指MySQL扫描索引本身完成排序。FileSort方式效率较低。  
+  - ORDER BY满足两情况，会使用Index方式排序:ORDER BY语句使用索引最左前列;使用where子句与OrderBy子句条件列组合满足索引最左前列。
+- 尽可能在索引列上完成排序操作，遵照索引建的最佳左前缀
+- 如果不在索引列上，filesort有两种算法：mysql就要启动双路排序和单路排序
+
+  - 双路排序:  
+  MySQL4.1之前是使用双路排序，字面意思是两次扫描磁盘，最终得到数据。
+读取行指针和orderby列，对他们进行排序，然后扫描已经排序好的列表，按照列表中的值重新从列表中读取对应的数据传输  
+
+  从磁盘取排序字段，在buffer进行排序，再从磁盘取其他字段。  
+  - 取一批数据，要对磁盘进行两次扫描，众所周知，I\O是很耗时的，所以在mysql4.1之后，出现了第二张改进的算法，就是单路排序。  
+  - 单路排序:从磁盘读取查询需要的所有列，按照orderby列在buffer对它们进行排序，然后扫描排序后的列表进行输出，
+它的效率更快一些，避免了第二次读取数据，并且把随机IO变成顺序IO，但是它会使用更多的空间，
+因为它把每一行都保存在内存中了。
+  - 结论及引申出的问题:  
+  由于单路是后出来的，总体而言好过双路;  
+  但是用单路有问题。  
+  ![单路排序问题](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/dlpx.png)
+
+- 优化策略:  
+增大sort_buffer_size参数的设置;  
+增大max_length_for_sort_data参数的设置;  
+why:  
+![why](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/order_by_why.png)
+
+
+- 小总结:  
+
+![why](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/order_by_result.png)
+
+
+__GROUP BY关键字优化__  
+
+groupby实质是先排序后进行分组，遵照索引建的最佳左前缀;  
+当无法使用索引列，增大max_length_for_sort_data参数的设置+增大sort_buffer_size参数的设置;  
+where高于having,能写在where限定的条件就不要去having限定了。
+
+## <a id="cy_mcrz">2.慢查询日志</a>
 ### 是什么
 
 ![是什么](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcxrz.png)  
