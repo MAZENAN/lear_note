@@ -536,17 +536,17 @@ __查看是否开启及如何开启__:
 
 默认：  
 
-![默认](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcy_mr.png)  
+![默认](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcx_mr.png)  
 
 开启：  
 
 set global slow_query_log = 1  
-![慢查询开启](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcy_kq1.png)    
-![慢查询开启](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcy_kq2.png)  
+![慢查询开启](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcx_kq1.png)    
+![慢查询开启](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcx_kq2.png)  
 
 __那么开启慢查询日志后，什么样的SQL参会记录到慢查询里面:__  
 
-![慢查询记录](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcy_jl.png)
+![慢查询记录](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcx_jl.png)
 
 
 __Case:__  
@@ -560,14 +560,14 @@ SHOW VARIABLES LIKE 'long_query_time%';show global variables like 'long_query_ti
 
 (4)记录慢SQL并后续分析  
 
-![慢查询记录分析](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcy_jlfx.png)
+![慢查询记录分析](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcx_jlfx.png)
 
 (5)查询当前系统中有多少条慢查询记录
 
-![慢查询记录分析](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcy_num.png)
+![慢查询记录分析](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcx_num.png)
 
 __配置版:__  
-![慢查询配置](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcy_pz.png)
+![慢查询配置](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcx_pz.png)
 
 ### 日志分析工具mysqldumpshow
 
