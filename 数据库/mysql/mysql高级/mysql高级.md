@@ -518,9 +518,10 @@ like KK%相当于=常量     %KK和%KK% 相当于范围
 在选择组合索引的时候，尽量选择可以能包含当前query中的where子句中更多字段的索引;  
 尽可能通过分析统计信息和调整query的写法来达到选择合适索引的目的。  
 
-
 # <a id="cxjq">三、查询截取分析</a>
 ## <a id="cy_cyyh">1.查询优化</a>
+
+![查询优化步骤](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/cxyhbz.png)
 
 __永远小表驱动大表__  
 
@@ -562,11 +563,9 @@ __order by关键字优化__
 why:  
 ![why](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/order_by_why.png)
 
-
 - 小总结:  
 
 ![why](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/order_by_result.png)
-
 
 __GROUP BY关键字优化__  
 
