@@ -11,9 +11,14 @@
   - [4.性能分析](#sy_xnfx)
   - [5.索引优化](#sy_yh)
 - [3.查询截取分析](#cxjq)
-- [4.Mysql锁机制](#lock)
-- [5.主从复制](#ms)
-- [6.高可扩展性](#ms)
+  - [查询优化](#cy_cyyh)  
+  - [慢查询日志](#cy_mcrz)  
+  - [批量数据脚本](#cy_pljb)
+  - [Show profiles](#cy_sp)
+  - [全局查询日志](#cy_qjrz)    
+- [4.Mysql锁机制](#lock)  
+- [5.主从复制](#ms)  
+- [6.高可扩展性](#ms)  
 
 # 一、<a id="mysql_jg">MySQL架构</a>
 ## 1、<a id="mysql_jj">MySQL简介</a>  
@@ -515,6 +520,21 @@ like KK%相当于=常量     %KK和%KK% 相当于范围
 
 
 # <a id="cxjq">三、查询截取分析</a>
+## <a id="cy_cyyh">查询优化</a>
+## <a id="cy_mcrz">慢查询日志</a>
+## <a id="cy_pljb">批量数据脚本</a>
+## <a id="cy_sp">Show profiles</a>
+## <a id="cy_qjrz">全局查询日志</a>
+
+__配置启用__:    
+
+![配置启用](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/pzqy.png)  
+
+  __编码启用__:    
+
+![编码启用](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/bmqy.png)  
+
+__永远不要在生产环境开启这个功能。__ 
 
 # <a id="lock">四、Mysql锁机制</a>  
 ## 1.概述
@@ -571,7 +591,6 @@ like KK%相当于=常量     %KK和%KK% 相当于范围
 
 ![table_lock3](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/table_lock3.png)
 
-
 ### 行锁(偏写)
 (1) 特点  
 
@@ -606,9 +625,6 @@ InnoDB与MyISAM的最大不同有两点：一是支持事务（TRANSACTION）;�
 (4) 案例结论  
 
 ![lock_line_result](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_line_result.png)   
-
- 
-
 
 (5) 行锁分析  
  
