@@ -573,8 +573,59 @@ like KK%相当于=常量     %KK和%KK% 相当于范围
 
 
 ### 行锁(偏写)
+(1) 特点  
+
+偏向InnoDB存储引擎，开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度也最高。  
+InnoDB与MyISAM的最大不同有两点：一是支持事务（TRANSACTION）;二是采用了行级锁。
+
+(2) 行锁支持事务，事务相关知识。  
+
+(3) 案例分析  
+- 建表SQL  
+
+![lock_line1](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_line1.png)
+
+- 行锁定基本演示   
+
+![lock_line2](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_line2.png)
+
+- 无索引行锁升级为表锁   
+
+    varchar  不用 ' '  导致系统自动转换类型, 行锁变表锁
+ 
+- 间隙锁危害  
+
+![lock_line3](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_line3.png)  
+
+![lock_line4](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_line4.png)  
+
+- 面试题：常考如何锁定一行     
+
+![lock_line5](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_line5.png)  
+
+(4) 案例结论  
+
+![lock_line_result](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_line_result.png)   
+
+ 
+
+
+(5) 行锁分析  
+ 
+![lock_line6](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_line6.png)   
+
+![lock_line7](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_line7.png)   
+
+(6) 优化建议  
+
+- 尽可能让所有数据检索都通过索引来完成，避免无索引行锁升级为表锁  
+- 合理设计索引，尽量缩小锁的范围
+- 尽可能较少检索条件，避免间隙锁
+- 尽量控制事务大小，减少锁定资源量和时间长度
+- 尽可能低级别事务隔离
+
 ### 页锁
 
-
+开销和加锁时间界于表锁和行锁之间：会出现死锁；锁定粒度界于表锁和行锁之间，并发度一般。
 
 # <a id="ms">五、主从复制</a>
