@@ -520,11 +520,82 @@ like KK%相当于=常量     %KK和%KK% 相当于范围
 
 
 # <a id="cxjq">三、查询截取分析</a>
-## <a id="cy_cyyh">查询优化</a>
-## <a id="cy_mcrz">慢查询日志</a>
-## <a id="cy_pljb">批量数据脚本</a>
-## <a id="cy_sp">Show profiles</a>
-## <a id="cy_qjrz">全局查询日志</a>
+## <a id="cy_cyyh">1.查询优化</a>
+## <a id="cy_mcrz">2.慢查询日志</a>
+
+### 是什么
+
+![是什么](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcxrz.png)  
+
+### 怎么玩
+说明:  
+
+![说明](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcxsm.png)  
+
+__查看是否开启及如何开启__:   
+
+默认：  
+
+![默认](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcy_mr.png)  
+
+开启：  
+
+set global slow_query_log = 1  
+![慢查询开启](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcy_kq1.png)    
+![慢查询开启](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcy_kq2.png)  
+
+__那么开启慢查询日志后，什么样的SQL参会记录到慢查询里面:__  
+
+![慢查询记录](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcy_jl.png)
+
+
+__Case:__  
+
+(1)查看当前多少秒算慢:SHOW VARIABLES LIKE 'long_query_time%';  
+
+(2)设置慢的阙值时间:set global long_query_time=3;  
+
+(3)为什么设置后看不出变化:需要重新连接或者新开一个回话才能看到修改值。
+SHOW VARIABLES LIKE 'long_query_time%';show global variables like 'long_query_time';  
+
+(4)记录慢SQL并后续分析  
+
+![慢查询记录分析](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcy_jlfx.png)
+
+(5)查询当前系统中有多少条慢查询记录
+
+![慢查询记录分析](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcy_num.png)
+
+__配置版:__  
+![慢查询配置](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mcy_pz.png)
+
+### 日志分析工具mysqldumpshow
+
+![mysqldumpshow](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mysqldumpshow.png)  
+
+查看mysqldumpshow的帮助信息  
+
+![查看mysqldumpshow的帮助信息](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mysqldumpshow_help.png)
+
+- s:是表示按何种方式排序
+- c:访问次数
+- l:锁定时间
+- r:返回记录
+- t:查询时间
+- al:平均锁定时间
+- ar:平均返回记录数
+- at:平均查询时间
+- t:即为返回前面多少条的数据
+- g:后边搭配一个正则匹配模式，大小写不敏感的
+
+
+工作常用参考  
+![mysqldumpshow_work](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mysqldumpshow_work.png)
+
+## <a id="cy_pljb">3.批量数据脚本</a>
+## <a id="cy_sp">4.Show profiles</a>
+
+## <a id="cy_qjrz">5.全局查询日志</a>
 
 __配置启用__:    
 
