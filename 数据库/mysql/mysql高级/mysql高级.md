@@ -363,7 +363,7 @@ id相同不同，同时存在。
 1.`system`：表只有一行记录（等于系统表），这是const类型的特例，平时不会出现，这个也可以忽略不计  
 2.`const`：表示通过索引一次就找到了，const用于比较primary key或者unique索引。因为只匹配一行数据，所以很快。如将主键至于where列表中，MySQL就能将该查询转换为一个常量  
 3.`eq_ref`：唯一性索引，对于每个索引键，表中只有一条记录与之匹配，常见于主键或唯一索引扫描  
-4.`re`f：非唯一索引扫描，返回匹配某个单独值的所有行。
+4.`ref`：非唯一索引扫描，返回匹配某个单独值的所有行。
 本质上也是一种索引访问，它返回所有匹配某个单独值的行，然而，
 它可能会找到多个符合条件的行，所以他应该属于查找和扫描的混合体  
 5.`range`：只检索给定范围的行，使用一个索引来选择行。key列显示使用了哪个索引
@@ -445,5 +445,73 @@ case:
 
 ## 5、索引优化  
 
+### (1) 索引分析
+
+### (2) 索引失效(应该避免)  
+
+1.全值匹配我最爱  
+![index_sx1](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index_sx1.png)
+
+2.最佳左前缀法则  
+
+如果索引了多例，要遵守最左前缀法则。指的是查询从索引的最左前列开始并且不跳过索引中的列。  
+
+![index_sx2](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index_sx2.png)  
+
+3.不在索引列上做任何操作（计算、函数、（自动or手动）类型转换），会导致索引失效而转向全表扫描  
+
+![index_sx3](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index_sx3.png)
+
+4.存储引擎不能使用索引中范围条件右边的列(范围之后全失效)  
+
+![index_sx4](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index_sx4.png)
+
+5.尽量使用覆盖索引（只访问索引的查询（索引列和查询列一致）），减少select*   
+
+![index_sx5](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index_sx5.png)  
+
+![index_sx6](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index_sx6.png)   
+ 
+6.mysql在使用不等于（！=或者<>）的时候无法使用索引会导致全表扫描   
+
+![index_sx7](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index_sx7.png)
+ 
+7.is null,is not null 也无法使用索引  
+
+![index_sx8](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index_sx8.png)  
+
+8.like以通配符开头（'$abc...'）mysql索引失效会变成全表扫描操作  
+
+![index_sx9](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index_sx9.png)    
+
+问题：解决like'%字符串%'索引不被使用的方法？？  
+ 1、可以使用主键索引  
+ 2、使用覆盖索引，查询字段必须是建立覆盖索引字段  
+ 3、当覆盖索引指向的字段是varchar(380)及380以上的字段时，覆盖索引会失效！  
+
+9.字符串不加单引号索引失效   
+
+![index_sx10](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index_sx10.png) 
+
+10.少用or,用它连接时会索引失效  
+
+![index_sx11](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index_sx11.png)
 
 
+11.小总结  
+![index_sx12](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index_sx12.png)  
+
+like KK%相当于=常量     %KK和%KK% 相当于范围   
+
+![index_sx13](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index_sx13.png)  
+
+### (3) 一般性建议  
+
+对于单键索引，尽量选择针对当前query过滤性更好的索引;  
+在选择组合索引的时候，当前Query中过滤性最好的字段在索引字段顺序中，位置越靠前越好;  
+在选择组合索引的时候，尽量选择可以能包含当前query中的where子句中更多字段的索引;  
+尽可能通过分析统计信息和调整query的写法来达到选择合适索引的目的。  
+
+
+
+### (4) 
