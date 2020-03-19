@@ -10,9 +10,10 @@
   - [3.索引简介](#sy_jj)
   - [4.性能分析](#sy_xnfx)
   - [5.索引优化](#sy_yh)
-- [3.查询截取分析](#bx)
-- [4.Mysql锁机制](#cxyh)
-- [5.主重复制](#gky)
+- [3.查询截取分析](#cxjq)
+- [4.Mysql锁机制](#lock)
+- [5.主从复制](#ms)
+- [6.高可扩展性](#ms)
 
 # 一、<a id="mysql_jg">MySQL架构</a>
 ## 1、<a id="mysql_jj">MySQL简介</a>  
@@ -302,7 +303,7 @@ Index Browning 索引枯萎(不知道该怎么翻译这个名词，就是指leav
 
 ![举例](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/index1.png)  
 
-## 4、性能分析
+## 4、<a id="sy_xnfx">性能分析</a>
 ### (1) MySQL Query Optimizer  
 
 ![MySQL Query Optimizer](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mqo.png)  
@@ -443,7 +444,7 @@ where子句的值总是false，不能用来获取任何元组
 case:  
 ![case](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/case.png)
 
-## 5、索引优化  
+## <a id="sy_yh">5、索引优化</a>  
 
 ### (1) 索引分析
 
@@ -513,5 +514,67 @@ like KK%相当于=常量     %KK和%KK% 相当于范围
 尽可能通过分析统计信息和调整query的写法来达到选择合适索引的目的。  
 
 
+# <a id="cxjq">三、查询截取分析</a>
 
-### (4) 
+# <a id="lock">四、Mysql锁机制</a>  
+## 1.概述
+
+### 定义
+
+![lock](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock.png)   
+
+### 锁的分类
+- 从数据操作的类型（读、写）分:  
+  - 读锁（共享锁）：针对同一份数据，多个读操作可以同时进行而不会互相影响   
+  - 写锁（排它锁）：当前写操作没有完成前，它会阻断其他写锁和读锁。 
+ 
+- 从对数据操作的颗粒度  
+  - 表锁
+  - 行锁
+
+## 2.三锁
+### 表锁（偏读）
+(1) 特点： 偏向MyISAM存储引擎，开销小，加锁快，无死锁，锁定粒度大，发生锁冲突的概率最高，并发最低
+
+(2) 案例分析   
+   
+- 建表SQL   
+
+![lock_create](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_create.png)   
+
+![unlock](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/unlock.png)
+  
+- 加读锁  
+
+![lock_read1](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_read1.png)  
+
+![lock_read2](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_read2.png)  
+
+![lock_read2](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_read3.png)  
+
+- 加写锁   
+![lock_write1](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_write1.png)  
+
+![lock_write2](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_write2.png)
+
+(3) 案例结论  
+
+![lock_result1](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_result1.png)  
+
+![lock_result2](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/lock_result2.png)  
+
+(4) 表锁分析  
+
+![table_lock1](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/table_lock1.png)  
+
+![table_lock2](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/table_lock2.png)  
+
+![table_lock3](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/table_lock3.png)
+
+
+### 行锁(偏写)
+### 页锁
+
+
+
+# <a id="ms">五、主从复制</a>
