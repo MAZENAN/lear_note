@@ -18,7 +18,8 @@
   - [全局查询日志](#cy_qjrz)    
 - [4.Mysql锁机制](#lock)  
 - [5.主从复制](#ms)  
-- [6.高可扩展性](#ms)  
+- [6.高可扩展性](#gkkz)
+- [7.高可用](#gky)
 
 # 一、<a id="mysql_jg">MySQL架构</a>
 ## 1、<a id="mysql_jj">MySQL简介</a>  
@@ -766,4 +767,24 @@ InnoDB与MyISAM的最大不同有两点：一是支持事务（TRANSACTION）;�
 
 开销和加锁时间界于表锁和行锁之间：会出现死锁；锁定粒度界于表锁和行锁之间，并发度一般。
 
+### 总结
+开销、加锁速度、死锁、粒度、并发性能
+只能就具体应用的特点来说哪种锁更合适
 # <a id="ms">五、主从复制</a>
+
+## 1.复制的基本原理
+
+- slave会从master读取binlog来进行数据同步  
+
+- 三步骤+原理图
+
+![mysql_ms_yl](https://github.com/MAZENAN/lear_note/blob/master/数据库/mysql/img/mysql_ms_yl.png)
+
+## 2.复制的基本原则
+- 每个slave只有一个master
+- 每个slave只能有一个唯一的服务器ID
+- 每个master可以有多个salve
+## 3.复制的最大问题
+延时
+## 4.一主一从常见配置
+
