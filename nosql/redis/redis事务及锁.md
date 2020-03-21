@@ -31,7 +31,30 @@
 ![string](https://github.com/MAZENAN/lear_note/blob/master/nosql/redis/img/redis_sw_case4.png) 
 ### (6) case5:watch监控  
 
+#### 1.操作步骤
+- 初始化信用卡可用余额和欠额
 
+![redis_watch1](https://github.com/MAZENAN/lear_note/blob/master/nosql/redis/img/redis_watch1.png)
+
+- 无加塞篡改，先监控再开启multi，保证两笔金额变动在同一个事务内
+
+![redis_watch2](https://github.com/MAZENAN/lear_note/blob/master/nosql/redis/img/redis_watch2.png)
+
+- 有加塞篡改:监控了key，如果key被修改了，后面一个事务的执行失效  
+
+
+![redis_watch3](https://github.com/MAZENAN/lear_note/blob/master/nosql/redis/img/redis_watch3.png)
+
+- unwatch
+
+![redis_watch4](https://github.com/MAZENAN/lear_note/blob/master/nosql/redis/img/redis_watch4.png)
+
+- 一旦执行了exec之前加的监控锁都会被取消掉了
+
+
+#### 2.小结  
+- Watch指令，类似乐观锁，事务提交时，如果Key的值已被别的客户端改变，比如某个list已被别的客户端push/pop过了，整个事务队列都不会被执行
+- 通过WATCH命令在事务执行之前监控了多个Keys，倘若在WATCH之后有任何Key的值发生了变化，EXEC命令执行的事务都将被放弃，同时返回Nullmulti-bulk应答以通知调用者事务执行失败
 ## 锁
 
 - 悲观锁
