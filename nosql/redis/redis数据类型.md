@@ -8,7 +8,7 @@
 | Hash     |    有key-value的散列组，其中key是字符串,value是元素      |  按照key进行增加删除  |     
 | Sort Set |  带分数的score-value有序集合，其中score为浮点,value为元素|  集合插入，按照分数范围查找  |   
 
-# `String`类型
+# 一、 `String`类型
 
     key | value（string/int/float）
 
@@ -17,7 +17,7 @@
 - 自增操作：`incr k`
 - 自减操作：`decrby k`
 
-# `list`类型
+# 二、 `list`类型
 
 ![list](https://github.com/MAZENAN/lear_note/blob/master/nosql/redis/img/redis_list.png)  
 
@@ -26,3 +26,14 @@
 - 左边弹出：`lpop l1 v1`
 - 右边弹出`rpop l1 v2`
 - list长度：`llen l1`
+
+# 三、 `set`类型
+
+![set](https://github.com/MAZENAN/lear_note/blob/master/nosql/redis/img/redis_set.png)
+
+- 插入值：`sadd sk1 v1`
+- 删除值：`srem sk1 v1`
+- 判读是否有值：`sismember sk1 v1`
+- 查看集合中值的数量: `scard sk1`
+
+ 
