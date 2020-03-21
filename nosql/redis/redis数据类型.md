@@ -10,7 +10,7 @@
 
 # 一、 `String`类型
 
-    key | value（string/int/float）
+![string](https://github.com/MAZENAN/lear_note/blob/master/nosql/redis/img/redis_string.png) 
 
 - 设置值：`set k v`
 - 获取值：`get k`
@@ -45,3 +45,13 @@
 - 批量获取值：`hmget hash1 k1 k2`
 - hash长度：`hlen hash1`
 
+# 五、`sort set`
+
+![sort_set](https://github.com/MAZENAN/lear_note/blob/master/nosql/redis/img/redis_sort_set.png)
+
+    如果score相同，则按照value的自然顺序排列
+
+-  添加值:`zadd zset1 7 v1`
+-  查看元素的数量：`zcard zset1`
+-  按照range的值大小从小到大排列取出：`zrange zset1 0 2 withscores`
+-  获取zset的某个值的排名：`zrange zset1 v1`
