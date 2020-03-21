@@ -36,4 +36,12 @@
 - 判读是否有值：`sismember sk1 v1`
 - 查看集合中值的数量: `scard sk1`
 
- 
+# 四、`hash`类型
+
+![hash](https://github.com/MAZENAN/lear_note/blob/master/nosql/redis/img/redis_hash.png)  
+
+- 添加值：`hset hash1 k1 v1`
+- 获取值：`hget hash1 k1`
+- 批量获取值：`hmget hash1 k1 k2`
+- hash长度：`hlen hash1`
+
