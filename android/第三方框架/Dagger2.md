@@ -27,7 +27,53 @@ __@Provide:__
 
 __@Component：__  
 
-    Component从根本上来说就是一个注入器，也可以说是@inject和@Module的桥梁，它的主要作用就是连接这两个部分。Component可以提供所有定义了的类型的实例，比如：我们必须用@Component注解一个接口然后列出所有的
+    Component从根本上来说就是一个注入器，也可以说是@inject和@Module的桥梁，它的主要作用就是连接这两个部分。Component可以提供所有定义了的类型的实例，比如：我们必须用@Component注解一个接口然后列出所有的  
+
+使用步骤：  
+
+1.新建`Module`类  
+
+     @Module
+     public class MainMoudle {  
+     Context context;  
+
+     public MainMoudle (Context context) {  
+        this.context = context;  
+     }   
+
+     @Provides  
+     public Person getPerson(Leg name) {  
+         return new Person(name);  
+       }  
+     }  
+    
+注意：当对象有参数时：  
+方式1：在Moudule中提供`@Provides`   
+方式2：在对象的构造方法中使用`@Inject`注解
+
+
+2.新建`Component`接口
+
+
+    @Component(modules = MainMoudle.class)
+    public interface MainComponent {
+        void inject(MainActivity activity);
+    }
+
+
+3.注入到Container中  
+
+ 注意：注入方式1：moudule构造方法无参数时：  
+
+    DaggerMainComponent.create().inject(this);  
+    
+ 注入方式2：module构造方法有参数时：  
+  
+    DaggerMainComponent.builder().mainMoudle(new MainMoudle(this)).build().inject(this);
+4.使用  
+    @Inject  
+    Person
+
 
 # 3.模块化实现
 # 4.创建和区分不同实例
