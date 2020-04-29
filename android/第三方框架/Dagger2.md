@@ -2,7 +2,7 @@
 - [2.Dagger2的基本使用](#base)
 
 # <a id="why">1.为什么要使用Dagger2</a>
-# 2.Dagger2的基本使用
+# <a id="base">2.Dagger2的基本使用</a>
 
     添加依赖
     api 'com.google.dagger:dagger:2.26'  
