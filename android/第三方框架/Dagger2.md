@@ -63,14 +63,15 @@ __@Component：__
 
 3.注入到Container中  
 
- 注意：注入方式1：moudule构造方法无参数时：  
+ 注意：注入方式1：module构造方法无参数时：  
 
     DaggerMainComponent.create().inject(this);  
     
  注入方式2：module构造方法有参数时：  
   
     DaggerMainComponent.builder().mainMoudle(new MainMoudle(this)).build().inject(this);
-4.使用  
+4.使用   
+ 
     @Inject  
     Person
 
