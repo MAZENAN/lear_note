@@ -204,5 +204,52 @@ __总结:__
 
 
 # 5.Singleton单例讲解
-# 6.自定义Scope
-# 7.SubCompent和Laze与Provider
+注解：`@Singleton`  
+
+1.使用方法  
+在module的方法中使用注解，在compoent中使用注解。  
+
+	...  
+
+	 @Singleton
+	    @Provides
+	    public Leg provideLeg() {
+	        return new Leg();
+	    }
+	...
+
+....  
+
+	@Singleton
+	@Component(modules = UserModule.class, dependencies = HttpCompoent.class)
+	public interface UserCompoent {
+	
+	    void inject(LoginActivity activity);
+	}  
+
+
+2.注意事项  
+这里的singleton不是单例设计模式中的单例，实在compoent作用范围中的单例。  
+
+
+# 6.自定义Scope  
+
+注意事项  
+
+![注意事项](https://github.com/MAZENAN/lear_note/blob/master/android/第三方框架/img/zhuyi.png)   
+
+
+![scop](https://github.com/MAZENAN/lear_note/blob/master/android/第三方框架/img/scop.png)   
+
+自定义scop注解  
+
+	@Scope
+	@Documented
+	@Retention(RUNTIME)
+	public @interface ActivityScop {
+	}
+
+
+# 7.SubCompent和Laze与Provider  
+
+
