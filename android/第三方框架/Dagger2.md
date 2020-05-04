@@ -250,6 +250,46 @@ __总结:__
 	}
 
 
-# 7.SubCompent和Laze与Provider  
+# 7.SubComponent和Laze与Provider  
+## SubComponent  
+
+类似于`dependencies`去解决依赖关系，但是又和它不一样
+![SubComponent](https://github.com/MAZENAN/lear_note/blob/master/android/第三方框架/img/SubComponent.png) 
+
+使用步骤：  
+1.定义module  
+
+	@Module
+	public class ChildModule {
+	
+	    @ActivityScop
+	    @Provides
+	    public Gson provideGson() {
+	        return new Gson();
+	    }
+	}  
+2.定义子compoent   
+
+	@ActivityScop
+	@Subcomponent(modules = ChildModule.class)
+	public interface ChildCompoent {
+	    void inject(SubActivity activity);
+	}  
+
+3.定义父compoent    
+
+	@Singleton
+	@Component(modules = PModule.class)
+	public interface PCompoent {
+	    ChildCompoent getSubCompoent();
+	}
+
+注意在子module中未提供对象时会从父类中找，找不到则会报错。  
+
+
+
+## Laze与Provider   
+
+![Laze与Provider](https://github.com/MAZENAN/lear_note/blob/master/android/第三方框架/img/Laze_Provider.png) 
 
 
