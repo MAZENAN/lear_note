@@ -77,7 +77,132 @@ __@Component：__
 
 
 # 3.模块化实现
-# 4.创建和区分不同实例
+多module的使用  
+使用方式：  
+1.在module中使用includes  
+
+    @Module(includes = {HttpModule.class})  
+2.在compoent中modules为多个    
+
+     @Component(modules = {UserModule.class, HttpModule.class})    
+
+3.定义单独的`compoent`再在compoent中使用`dependencies`  
+    
+    第一步：
+    @Module
+    public class HttpModule {
+        @Provides
+        public Http provideHttp() {
+            Log.e("user", "http======");
+            return new Http();
+        }
+    }   
+    第二步：  
+	@Component(modules = {HttpModule.class})
+	public interface HttpCompoent {
+	    Http getHttp();
+	}
+    第三步：
+	
+	@Component(modules = UserModule.class, dependencies = HttpCompoent.class)
+	public interface UserCompoent {
+	
+	    void inject(LoginActivity activity);
+	}  
+
+    第四步
+    注入写法
+    DaggerUserCompoent.builder().httpCompoent(DaggerHttpCompoent.create()).userModule(new UserModule()).build().inject(this);
+
+
+
+# 4.创建和区分不同实例  
+
+使用注解  
+
+方式1：使用`@Named("")`  
+
+ 第一步：  
+
+	@Module
+	public class UserModule {
+	    @Named("dev")
+	    @Provides
+	    public User provideUserDev() {
+	        Log.e("user", "user======dev");
+	        return new User();
+	    }
+	
+	    @Named("re")
+	    @Provides
+	    public User provideUserRe() {
+	        Log.e("user", "user======release");
+	        return new User();
+	    }
+	}
+
+
+  第二步：  
+
+    @Named("dev")
+    @Inject
+    User userDev;
+    @Named("re")
+    @Inject
+    User userRe;  
+
+方式二：自定义注解  
+
+第一步：定义注解  
+
+	@Qualifier
+	@Documented
+	@Retention(RUNTIME)
+	public @interface Dev {
+	}  
+
+	@Qualifier
+	@Documented
+	@Retention(RUNTIME)
+	public @interface Release {
+	}
+
+第二步：在module中使用    
+
+	@Module
+	public class UserModule {
+	    @Dev
+	    @Provides
+	    public User provideUserDev() {
+	        Log.e("user", "user======dev");
+	        return new User();
+	    }
+	
+	    @Release
+	    @Provides
+	    public User provideUserRe() {
+	        Log.e("user", "user======release");
+	        return new User();
+	    }
+	}
+
+
+第三步：在inject时指定  
+
+    @Dev
+    @Inject
+    User userDev;
+    @Release
+    @Inject
+    User userRe;
+
+__总结:__  
+
+- @Qualifier:要作用是用来区分不同对象实例  
+- @Named其实是@Qualifier的一种实现  
+
+
+
 # 5.Singleton单例讲解
 # 6.自定义Scope
 # 7.SubCompent和Laze与Provider
