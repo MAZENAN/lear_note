@@ -290,6 +290,145 @@ __总结:__
 
 ## Laze与Provider   
 
-![Laze与Provider](https://github.com/MAZENAN/lear_note/blob/master/android/第三方框架/img/Laze_Provider.png) 
+![Laze与Provider](https://github.com/MAZENAN/lear_note/blob/master/android/第三方框架/img/Laze_Provider.png)  
+# 8.扩展
+## @Binds  
+- 作用  
+     `与@Provides类似，为返回的抽象接口注入实现`  
+- 使用注意事项   
+  `1.注入对象为返回类型的实现类对象`   
+  `2.module中的其他方法变为static `  
+
+1.接口或抽象类  
+
+	public interface ITalk {
+	    void say();
+	}  
+2.实现类   
+ 
+	public class TalkIml implements ITalk {
+	
+	    @Inject
+	    public TalkIml() {
+	
+	    }
+	
+	    @Override
+	    public void say() {
+	        Log.e("tag", "say");
+	    }
+	}
+
+3.module  
+__注意：static方法__
+	
+	@Module
+	public abstract class UserModule {
+	    @Dev
+	    @Provides
+	    public static User provideUserDev(Http http) {
+	        Log.e("user", "user======dev" + "  http:" + http);
+	        return new User();
+	    }
+	
+	    @Release
+	    @Provides
+	    public static User provideUserRe(Http http) {
+	        Log.e("user", "user======release" + "  http:" + http);
+	        return new User();
+	    }
+	
+	    @Provides
+	    public static Leg provideLeg() {
+	        return new Leg();
+	    }
+	
+	    @Binds
+	    public abstract ITalk bindTalk(TalkIml talkIml);
+	}
 
 
+## @Component.Builder  
+ 
+- 作用  
+    `它可以让我们自定义上面 Dagger 生成的 Builer 类`  
+- 配合 `@BindsInstance`使用  
+
+		@ActivityScop
+		@Component(modules = UserModule.class, dependencies = HttpCompoent.class)
+		public interface UserCompoent {
+		
+		    void inject(LoginActivity activity);
+		
+		    @Component.Builder
+		    interface Builder{
+		        UserCompoent.Builder httpCompoent(HttpCompoent httpCompoent);
+		        UserCompoent build();
+		    }
+		}   
+
+## @BindsInstance  
+- 作用  
+
+`我们经常通过构造函数来给某些成员变量赋值，在上面的 AppModule 也是通过构造函数来给成员 application 初始化。@BindsInstance 它可以让我们省去写这类构造函数，通过它能够为类的成员变量赋值。`  
+
+
+1.原module
+
+		@Module
+		public class AppModule {
+		 
+		   Application application;
+		 
+		   public AppModule(Application application) {
+		      this.application = application;
+		   }
+		 
+		   @Provides
+		   Application providesApplication() {
+		      return application;
+		   }
+		   @Provides
+		   @Singleton
+		   public SharedPreferences providePreferences() {
+		       return application.getSharedPreferences(DATA_STORE,
+		                             Context.MODE_PRIVATE);
+		   }
+		 
+
+
+2.去掉构造  
+
+	@Module
+	 public class AppModule {
+	 
+	     @Provides
+	     @Singleton
+	     public SharedPreferences providePreferences(
+	                                    Application application) {
+	         return application.getSharedPreferences(
+	                                    "store", Context.MODE_PRIVATE);
+	     }
+
+3.compoent  
+	    
+
+	@Singleton
+	@Component(modules = {AppModule.class})
+	public interface AppComponent {
+	   void inject(MainActivity mainActivity);
+	   SharedPreferences getSharedPrefs();
+	   @Component.Builder
+	   interface Builder {
+	 
+	      AppComponent build();
+	      @BindsInstance Builder application(Application application);      
+	  }
+
+4.初始化  
+
+	DaggerAppComponent appComponent = DaggerAppComponent.builder()
+	           .application(this)
+	           .build();  
+
+`注意：这里我们少了 appModule(AppModule appModule), 并通过 AppModule 默认构造函数（即无参构造函数）去生成 AppModule 实例（该实例是 Builder 类的成员变量）。`
